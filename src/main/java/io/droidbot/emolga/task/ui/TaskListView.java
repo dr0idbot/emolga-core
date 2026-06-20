@@ -1,8 +1,10 @@
-package io.droidbot.emolga.examplefeature.ui;
+package io.droidbot.emolga.task.ui;
 
+import io.droidbot.emolga.base.ui.EmolgaViewBase;
 import io.droidbot.emolga.base.ui.ViewTitle;
-import io.droidbot.emolga.examplefeature.Task;
-import io.droidbot.emolga.examplefeature.TaskService;
+import io.droidbot.emolga.task.Task;
+import io.droidbot.emolga.task.TaskService;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -10,7 +12,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
@@ -25,8 +26,8 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 
 @Route(value = "")
 @PageTitle("Task List")
-@Menu(order = 0, icon = "icons/clipboard-check.svg", title = "Task List")
-class TaskListView extends VerticalLayout {
+@Menu(order = 0, icon = "lucide/clipboard-check.svg", title = "Task List")
+class TaskListView extends EmolgaViewBase {
 
     private static final long serialVersionUID = 1L;
 

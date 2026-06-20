@@ -9,6 +9,7 @@
     <properties>
         <java.version>25</java.version>
         <vaadin.version>25.2.0-rc1</vaadin.version>
+        <jjwt.version>0.13.0</jjwt.version>
     </properties>
     
     <parent>
@@ -55,6 +56,38 @@
 <dependency>
     <groupId>org.postgresql</groupId>
     <artifactId>postgresql</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.github.dr0idbot</groupId>
+    <artifactId>v-lucide-icons</artifactId>
+    <version>1.0.0</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>${jjwt.version}</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>${jjwt.version}</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>${jjwt.version}</version>
+    <scope>runtime</scope>
 </dependency>
     </dependencies>
     
