@@ -1,4 +1,4 @@
-package io.droidbot.emolga.examplefeature;
+package io.droidbot.emolga.task;
 
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;

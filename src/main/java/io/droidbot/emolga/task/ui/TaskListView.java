@@ -1,8 +1,9 @@
-package io.droidbot.emolga.examplefeature.ui;
+package io.droidbot.emolga.task.ui;
 
 import io.droidbot.emolga.base.ui.ViewTitle;
-import io.droidbot.emolga.examplefeature.Task;
-import io.droidbot.emolga.examplefeature.TaskService;
+import io.droidbot.emolga.task.Task;
+import io.droidbot.emolga.task.TaskService;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;

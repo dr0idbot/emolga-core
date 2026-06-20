@@ -1,4 +1,4 @@
-package io.droidbot.emolga.examplefeature;
+package io.droidbot.emolga.task;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
