@@ -1,21 +1,23 @@
 package io.droidbot.emolga;
 
-import com.vaadin.flow.theme.aura.Aura;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
+import com.vaadin.flow.theme.aura.Aura;
 
 @SpringBootApplication
 @StyleSheet(Aura.STYLESHEET)
-@StyleSheet("styles.css") // Your custom styles
+@StyleSheet("styles.css")
 @Push
-public class Application implements AppShellConfigurator {
+public class EmolgaCore implements AppShellConfigurator {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+	private static final long serialVersionUID = 1L;
+
+	public static void main(String[] args) {
+		SpringApplication.run(EmolgaCore.class, args);
+	}
 
 }

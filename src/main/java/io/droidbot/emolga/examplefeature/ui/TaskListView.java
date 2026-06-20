@@ -28,7 +28,9 @@ import static com.vaadin.flow.spring.data.VaadinSpringDataHelpers.toSpringPageRe
 @Menu(order = 0, icon = "icons/clipboard-check.svg", title = "Task List")
 class TaskListView extends VerticalLayout {
 
-    private final TaskService taskService;
+    private static final long serialVersionUID = 1L;
+
+	private final TaskService taskService;
 
     final TextField description;
     final DatePicker dueDate;

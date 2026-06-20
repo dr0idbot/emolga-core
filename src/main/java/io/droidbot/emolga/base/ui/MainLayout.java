@@ -18,18 +18,19 @@ import com.vaadin.flow.server.menu.MenuEntry;
 @Layout
 public final class MainLayout extends AppLayout {
 
-    MainLayout() {
+    private static final long serialVersionUID = 1L;
+
+	MainLayout() {
         setPrimarySection(Section.DRAWER);
         addToDrawer(createApplicationHeader(), createApplicationDrawer(), createApplicationFooter());
     }
 
     private Component createApplicationHeader() {
-        // TODO Replace with real application logo and name
-        var appLogo = new Avatar("My Application");
+        var appLogo = new Avatar("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/587.svg");
         appLogo.addClassName("app-logo");
         appLogo.addThemeVariants(AvatarVariant.AURA_FILLED, AvatarVariant.XSMALL);
 
-        var appName = new Span("My Application");
+        var appName = new Span("EMOLGA");
         appName.addClassName("app-name");
 
         var header = new HorizontalLayout(appLogo, appName);
