@@ -12,4 +12,7 @@ node_modules/
 src/main/frontend/generated/
 vite.generated.ts
 
+OPENCODE.md
+
 application-dev.properties
+start.txt

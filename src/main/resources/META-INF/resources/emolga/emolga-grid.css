@@ -1,0 +1,46 @@
+vaadin-grid {
+	border-radius: 0;
+	border: none;
+}
+
+.emolga-grid {
+	border: solid 1px var(--vaadin-border-color);
+	border-radius: var(--vaadin-radius-m);
+	background: var(--aura-background-color);
+}
+
+.emolga-grid-header {
+	padding: var(--vaadin-padding-xs) var(--vaadin-padding-m);
+	gap: var(--vaadin-gap-s);
+	background: var(--aura-surface-color);
+	border-bottom: solid 1px var(--vaadin-border-color);
+}
+
+.emolga-grid-title {
+	font-size: var(--vaadin-font-size-xl);
+	font-weight: var(--aura-font-weight-semibold);
+	margin: 0;
+	white-space: nowrap;
+}
+
+.emolga-grid-header-content {
+	gap: var(--vaadin-gap-s);
+}
+
+.emolga-grid-header-actions {
+	gap: var(--vaadin-gap-xs);
+	margin-inline-start: auto;
+}
+
+.emolga-grid-footer {
+	padding: var(--vaadin-padding-xs) var(--vaadin-padding-m);
+	gap: var(--vaadin-gap-s);
+	background: var(--aura-surface-color);
+	border-top: solid 1px var(--vaadin-border-color);
+}
+
+.emolga-grid-row-count {
+	font-size: var(--vaadin-font-size-s);
+	color: var(--vaadin-secondary-text-color);
+	white-space: nowrap;
+}

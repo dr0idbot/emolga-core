@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.component.page.ColorScheme;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.aura.Aura;
 
@@ -12,6 +13,7 @@ import com.vaadin.flow.theme.aura.Aura;
 @StyleSheet(Aura.STYLESHEET)
 @StyleSheet("styles.css")
 @Push
+@ColorScheme(ColorScheme.Value.DARK_LIGHT)
 public class EmolgaCore implements AppShellConfigurator {
 
 	private static final long serialVersionUID = 1L;
