@@ -1,49 +1,39 @@
 package io.droidbot.emolga.auth;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.vaadin.flow.server.VaadinServletResponse;
+
+import jakarta.servlet.http.Cookie;
 
 @Service
 public class AuthService {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
+	private final AuthenticationManager authManager;
+	private final JwtService jwtService;
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+	public AuthService(AuthenticationManager authManager, JwtService jwtService) {
+		this.authManager = authManager;
+		this.jwtService = jwtService;
+	}
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-    }
+	public void login(String username, String password) {
+		Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-    public String authenticate(String username, String password, HttpServletResponse response) {
-        var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    log.warn("Login failed: user '{}' not found", username);
-                    return new BadCredentialsException(AuthConstants.LOGIN_FAILED);
-                });
+		UserDetails user = (UserDetails) auth.getPrincipal();
+		String jwt = jwtService.generateToken(user);
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            log.warn("Login failed: incorrect password for user '{}'", username);
-            throw new BadCredentialsException(AuthConstants.LOGIN_FAILED);
-        }
+		Cookie cookie = new Cookie("access_token", jwt);
+		cookie.setHttpOnly(true);
+		cookie.setSecure(true);
+		cookie.setPath("/");
+		cookie.setMaxAge(86400);
 
-        var token = jwtService.generateToken(username);
-        log.info("User '{}' logged in successfully", username);
+		VaadinServletResponse.getCurrent().addCookie(cookie);
+	}
 
-        var cookie = new Cookie(AuthConstants.JWT_COOKIE_NAME, token);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24);
-        response.addCookie(cookie);
-
-        return token;
-    }
 }

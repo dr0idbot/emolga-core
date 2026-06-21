@@ -1,74 +1,58 @@
 package io.droidbot.emolga.auth;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.Arrays;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+	@Autowired
+	private JwtService jwtService;
 
-    private final JwtService jwtService;
-    private final CustomUserDetailsService userDetailsService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, CustomUserDetailsService userDetailsService) {
-        this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
-    }
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        var token = extractToken(request);
+		String token = null;
 
-        if (token != null) {
-            if (jwtService.isTokenValid(token)) {
-                var username = jwtService.extractUsername(token);
-                var userDetails = userDetailsService.loadUserByUsername(username);
+		if (request.getCookies() != null) {
 
-                var authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			for (Cookie cookie : request.getCookies()) {
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                log.debug("Authenticated user: {} via JWT", username);
-            }
-        } else {
-            SecurityContextHolder.clearContext();
-        }
+				if ("access_token".equals(cookie.getName())) {
+					token = cookie.getValue();
+				}
+			}
+		}
 
-        filterChain.doFilter(request, response);
-    }
+		if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-    private String extractToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
+			String username = jwtService.extractUsername(token);
 
-        var cookies = request.getCookies();
-        if (cookies != null) {
-            var jwtCookie = Arrays.stream(cookies)
-                    .filter(c -> AuthConstants.JWT_COOKIE_NAME.equals(c.getName()))
-                    .findFirst();
-            if (jwtCookie.isPresent()) {
-                return jwtCookie.get().getValue();
-            }
-        }
+			UserDetails user = userDetailsService.loadUserByUsername(username);
 
-        return null;
-    }
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
+					user.getAuthorities());
+
+			SecurityContextHolder.getContext().setAuthentication(auth);
+		}
+
+		chain.doFilter(request, response);
+	}
 }

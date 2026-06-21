@@ -5,7 +5,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = AuthConstants.USER_TABLE)
-public class User {
+public class EmolgaUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,10 +24,10 @@ public class User {
     @Column(name = AuthConstants.COLUMN_UPDATED_AT, nullable = false)
     private Instant updatedAt;
 
-    protected User() {
+    protected EmolgaUser() {
     }
 
-    public User(String username, String password) {
+    public EmolgaUser(String username, String password) {
         this.username = username;
         this.password = password;
         this.createdAt = Instant.now();

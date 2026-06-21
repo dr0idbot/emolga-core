@@ -1,4 +1,4 @@
 @NullMarked
-package io.droidbot.emolga.base.ui;
+package io.droidbot.emolga.ui;
 
 import org.jspecify.annotations.NullMarked;

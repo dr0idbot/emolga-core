@@ -1,4 +1,4 @@
-package io.droidbot.emolga.base.ui;
+package io.droidbot.emolga.ui;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.applayout.DrawerToggle;
