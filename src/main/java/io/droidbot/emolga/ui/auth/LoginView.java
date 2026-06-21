@@ -1,4 +1,4 @@
-package io.droidbot.emolga.ui;
+package io.droidbot.emolga.ui.auth;
 
 import org.springframework.security.core.AuthenticationException;
 
@@ -10,13 +10,16 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import io.droidbot.emolga.auth.AuthService;
 
-@Route("login")
+@Route(value = "login", autoLayout = false)
 @AnonymousAllowed
 public class LoginView extends VerticalLayout {
 
 	private static final long serialVersionUID = 1L;
 
 	public LoginView(AuthService authService) {
+		setSizeFull();
+		setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+		setAlignSelf(Alignment.CENTER);
 
 		LoginForm loginForm = new LoginForm();
 		loginForm.setForgotPasswordButtonVisible(false);

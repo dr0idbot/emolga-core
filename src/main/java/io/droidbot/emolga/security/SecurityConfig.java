@@ -6,12 +6,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.vaadin.flow.spring.security.VaadinSecurityConfigurer;
 
 import io.droidbot.emolga.auth.JwtAuthenticationFilter;
+import io.droidbot.emolga.ui.auth.LoginView;
 
 @Configuration
 @EnableWebSecurity
@@ -21,9 +24,15 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
 
 		http.with(VaadinSecurityConfigurer.vaadin(), configurer -> {
+			configurer.loginView(LoginView.class);
 		});
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
+	}
+
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean

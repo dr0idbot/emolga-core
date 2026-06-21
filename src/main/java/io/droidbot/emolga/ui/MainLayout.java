@@ -26,8 +26,10 @@ import com.vaadin.flow.server.menu.MenuConfiguration;
 import com.vaadin.flow.server.menu.MenuEntry;
 
 import io.droidbot.emolga.auth.AuthConstants;
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.Cookie;
 
+@PermitAll
 @Layout
 public final class MainLayout extends AppLayout {
 
