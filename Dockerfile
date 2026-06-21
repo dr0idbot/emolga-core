@@ -1,13 +1,14 @@
-FROM eclipse-temurin:21-jdk AS build
+FROM maven:3.9.11-eclipse-temurin-25 AS build
 
 WORKDIR /app
 
 COPY . .
 
-RUN --mount=type=cache,target=/root/.m2 \
-    ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre
+
+WORKDIR /
 
 COPY --from=build /app/target/*.jar app.jar
 
