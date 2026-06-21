@@ -14,7 +14,7 @@ public class ThemeChanger extends Select<EmolgaTheme> {
 		setLabel("Select Theme");
 		setItems(EmolgaTheme.values());
 		setValue(EmolgaTheme.COZY_PAPER);
-		setItemLabelGenerator(theme -> theme.name().replace('_', ' ').toLowerCase());
+		setItemLabelGenerator(theme -> theme.name().replace('_', ' ').toUpperCase());
 
 		addValueChangeListener(
 				event -> switchTheme(event.getSource().getUI().orElse(UI.getCurrent()), event.getValue()));

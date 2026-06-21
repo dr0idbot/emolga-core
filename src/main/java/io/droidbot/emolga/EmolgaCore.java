@@ -9,10 +9,10 @@ import com.vaadin.flow.component.page.ColorScheme;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.aura.Aura;
 
+@Push
 @SpringBootApplication
 @StyleSheet(Aura.STYLESHEET)
 @StyleSheet("styles.css")
-@Push
 @ColorScheme(ColorScheme.Value.DARK_LIGHT)
 public class EmolgaCore implements AppShellConfigurator {
 

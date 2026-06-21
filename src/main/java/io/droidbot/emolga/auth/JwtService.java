@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,11 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-	private final SecretKey key = Keys.hmacShaKeyFor("my-secret-key-my-secret-key-my-secret-key".getBytes());
+	private final SecretKey key;
+
+	public JwtService(@Value("${emolga.jwt.secret}") String secret) {
+		this.key = Keys.hmacShaKeyFor(secret.getBytes());
+	}
 
 	public String generateToken(UserDetails user) {
 

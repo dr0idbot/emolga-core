@@ -10,9 +10,14 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.avatar.AvatarVariant;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.contextmenu.SubMenu;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.SvgIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
@@ -38,7 +43,6 @@ public final class EmolgaLayout extends AppLayout {
 
 	private final Avatar avatar;
 	private final Span displayLabel;
-	private final VerticalLayout menuPanel;
 	private final UserRepository userRepository;
 
 	EmolgaLayout(UserRepository userRepository) {
@@ -54,7 +58,6 @@ public final class EmolgaLayout extends AppLayout {
 		var userInfo = new HorizontalLayout(avatar, displayLabel);
 		userInfo.setAlignItems(FlexComponent.Alignment.CENTER);
 		userInfo.setSpacing(true);
-		userInfo.getStyle().set("cursor", "pointer");
 
 		var themeChanger = new ThemeChanger();
 		themeChanger.setWidthFull();
@@ -63,14 +66,16 @@ public final class EmolgaLayout extends AppLayout {
 		logoutBtn.addThemeVariants(ButtonVariant.TERTIARY);
 		logoutBtn.setWidthFull();
 
-		menuPanel = new VerticalLayout(themeChanger, logoutBtn);
-		menuPanel.setPadding(true);
-		menuPanel.setSpacing(true);
-		menuPanel.setVisible(false);
+		MenuBar menuBar = new MenuBar();
+		menuBar.addThemeVariants(MenuBarVariant.AURA_FILLED);
 
-		userInfo.addClickListener(event -> menuPanel.setVisible(!menuPanel.isVisible()));
+		MenuItem user = menuBar.addItem(userInfo);
+		SubMenu userSubMenu = user.getSubMenu();
+		userSubMenu.addComponent(themeChanger);
+		userSubMenu.addComponent(new Hr());
+		userSubMenu.addComponent(logoutBtn);
 
-		var footer = new VerticalLayout(userInfo, menuPanel);
+		var footer = new VerticalLayout(menuBar);
 		footer.setPadding(true);
 		footer.setSpacing(true);
 		footer.addClassName(EmolgaConstants.CSS_APP_FOOTER);
@@ -112,7 +117,7 @@ public final class EmolgaLayout extends AppLayout {
 	}
 
 	private Component createApplicationHeader() {
-		var appLogo = new Avatar(EmolgaConstants.APP_NAME, EmolgaConstants.APP_LOGO_URL);
+		var appLogo = new Avatar(EmolgaConstants.APP_NAME, "lucide/ratio.svg");
 		appLogo.addClassName(EmolgaConstants.CSS_APP_LOGO);
 		appLogo.addThemeVariants(AvatarVariant.AURA_FILLED, AvatarVariant.XSMALL);
 

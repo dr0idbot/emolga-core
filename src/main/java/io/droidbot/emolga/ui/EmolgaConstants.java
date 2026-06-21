@@ -25,5 +25,8 @@ public final class EmolgaConstants {
 	public static final String CSS_APP_LOGO = "app-logo";
 	public static final String CSS_APP_NAME = "app-name";
 	public static final String CSS_APP_FOOTER = "app-footer";
+	public static final String CSS_LOGIN_LAYOUT = "login-layout";
+	public static final String CSS_LOGIN_FORM_IMAGE = "login-form-image";
+	public static final String CSS_LOGIN_PAGE = "login-page";
 
 }
