@@ -26,28 +26,32 @@ import com.vaadin.flow.server.menu.MenuConfiguration;
 import com.vaadin.flow.server.menu.MenuEntry;
 
 import io.droidbot.emolga.auth.AuthConstants;
+import io.droidbot.emolga.auth.UserRepository;
 import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.Cookie;
 
 @PermitAll
 @Layout
-public final class MainLayout extends AppLayout {
+public final class EmolgaLayout extends AppLayout {
 
 	private static final long serialVersionUID = 1L;
 
 	private final Avatar avatar;
-	private final Span usernameLabel;
+	private final Span displayLabel;
 	private final VerticalLayout menuPanel;
+	private final UserRepository userRepository;
 
-	MainLayout() {
+	EmolgaLayout(UserRepository userRepository) {
+		this.userRepository = userRepository;
+
 		setPrimarySection(Section.DRAWER);
 
 		avatar = new Avatar();
 		avatar.addThemeVariants(AvatarVariant.AURA_FILLED, AvatarVariant.XSMALL);
 
-		usernameLabel = new Span();
+		displayLabel = new Span();
 
-		var userInfo = new HorizontalLayout(avatar, usernameLabel);
+		var userInfo = new HorizontalLayout(avatar, displayLabel);
 		userInfo.setAlignItems(FlexComponent.Alignment.CENTER);
 		userInfo.setSpacing(true);
 		userInfo.getStyle().set("cursor", "pointer");
@@ -55,7 +59,7 @@ public final class MainLayout extends AppLayout {
 		var themeChanger = new ThemeChanger();
 		themeChanger.setWidthFull();
 
-		var logoutBtn = new Button("Logout", event -> logout());
+		var logoutBtn = new Button(EmolgaConstants.LOGOUT, event -> logout());
 		logoutBtn.addThemeVariants(ButtonVariant.TERTIARY);
 		logoutBtn.setWidthFull();
 
@@ -69,7 +73,7 @@ public final class MainLayout extends AppLayout {
 		var footer = new VerticalLayout(userInfo, menuPanel);
 		footer.setPadding(true);
 		footer.setSpacing(true);
-		footer.addClassName("app-footer");
+		footer.addClassName(EmolgaConstants.CSS_APP_FOOTER);
 
 		var header = createApplicationHeader();
 		var scroller = new Scroller(createSideNav());
@@ -89,20 +93,31 @@ public final class MainLayout extends AppLayout {
 
 	private void updateUserInfo() {
 		var auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
-			avatar.setName(auth.getName());
-			usernameLabel.setText(auth.getName());
+		if (auth != null && auth.isAuthenticated() && !EmolgaConstants.ANONYMOUS_USER.equals(auth.getPrincipal())) {
+			var username = auth.getName();
+			var user = userRepository.findByUsername(username);
+			if (user.isPresent()) {
+				var emolgaUser = user.get();
+				var displayName = emolgaUser.getDisplayName();
+				if (displayName == null || displayName.isBlank()) {
+					displayName = username;
+				}
+				avatar.setName(displayName);
+				displayLabel.setText(displayName);
+			} else {
+				avatar.setName(username);
+				displayLabel.setText(username);
+			}
 		}
 	}
 
 	private Component createApplicationHeader() {
-		var appLogo = new Avatar("emolga",
-				"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/587.svg");
-		appLogo.addClassName("app-logo");
+		var appLogo = new Avatar(EmolgaConstants.APP_NAME, EmolgaConstants.APP_LOGO_URL);
+		appLogo.addClassName(EmolgaConstants.CSS_APP_LOGO);
 		appLogo.addThemeVariants(AvatarVariant.AURA_FILLED, AvatarVariant.XSMALL);
 
-		var appName = new Span("EMOLGA");
-		appName.addClassName("app-name");
+		var appName = new Span(EmolgaConstants.APP_NAME);
+		appName.addClassName(EmolgaConstants.CSS_APP_NAME);
 
 		var header = new HorizontalLayout(appLogo, appName);
 		header.setAlignItems(FlexComponent.Alignment.CENTER);

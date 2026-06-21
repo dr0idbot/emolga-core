@@ -23,6 +23,8 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
 
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/emolga/*.css", "/favicon.ico", "/lucide/*.svg").permitAll());
 		http.with(VaadinSecurityConfigurer.vaadin(), configurer -> {
 			configurer.loginView(LoginView.class);
 		});
