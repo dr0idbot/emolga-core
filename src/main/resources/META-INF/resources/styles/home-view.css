@@ -1,0 +1,96 @@
+.home-view {
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--vaadin-padding-xl);
+}
+
+.client-card {
+    background: var(--aura-surface-color);
+    border: 1px solid var(--vaadin-border-color);
+    border-radius: var(--vaadin-radius-l);
+    padding: var(--vaadin-padding-xl);
+    width: 100%;
+    max-width: 900px;
+}
+
+.client-card__title {
+    font-size: var(--aura-font-size-xl);
+    color: var(--vaadin-text-color);
+    margin: 0 0 var(--vaadin-gap-l) 0;
+}
+
+.info-group {
+    border: 1px solid var(--vaadin-border-color-secondary);
+    border-radius: var(--vaadin-radius-m);
+    padding: var(--vaadin-padding-m);
+    margin-bottom: var(--vaadin-gap-m);
+}
+
+.info-group__title {
+    font-size: var(--aura-font-size-xs);
+    font-weight: var(--aura-font-weight-semibold);
+    color: var(--vaadin-text-color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: var(--vaadin-gap-s);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--vaadin-gap-s) var(--vaadin-gap-l);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.info-item__label {
+    font-size: var(--aura-font-size-xs);
+    color: var(--vaadin-text-color-secondary);
+    font-weight: var(--aura-font-weight-medium);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info-item__value {
+    font-size: var(--aura-font-size-s);
+    color: var(--vaadin-text-color);
+    word-break: break-all;
+}
+
+.info-group:last-child {
+    margin-bottom: 0;
+}
+
+.user-agent-item {
+    grid-column: 1 / -1;
+}
+
+.about-view {
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--vaadin-padding-xl);
+}
+
+.about-card {
+    background: var(--aura-surface-color);
+    border: 1px solid var(--vaadin-border-color);
+    border-radius: var(--vaadin-radius-l);
+    padding: var(--vaadin-padding-xl);
+    width: 100%;
+    max-width: 600px;
+}
+
+.about-card__title {
+    font-size: var(--aura-font-size-xl);
+    color: var(--vaadin-text-color);
+    margin: 0 0 var(--vaadin-gap-l) 0;
+}
